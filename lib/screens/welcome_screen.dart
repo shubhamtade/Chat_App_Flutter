@@ -1,6 +1,7 @@
 import 'package:chat_app/screens/login_screen.dart';
 import 'package:chat_app/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String id = 'welcome_screen';
@@ -19,11 +20,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 1),
       upperBound: 1,
     );
 
-    animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
+    // animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
+
+    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
+        .animate(controller);
     controller.forward();
 
     controller.addListener(() {
@@ -34,7 +38,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: animation.value,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -47,15 +51,16 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   tag: 'logo',
                   child: Container(
                     child: Image.asset('images/logo.png'),
-                    height: animation.value * 100,
+                    height: 60,
                   ),
                 ),
-                Text(
-                  'Flash Chat',
-                  style: TextStyle(
+                TyperAnimatedTextKit(
+                  text: ['Slash Chat'],
+                  textStyle: TextStyle(
                     fontSize: 45.0,
                     fontWeight: FontWeight.w900,
                   ),
+                  speed: const Duration(milliseconds: 200),
                 ),
               ],
             ),
@@ -77,6 +82,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   height: 42.0,
                   child: Text(
                     'Log In',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
@@ -96,6 +102,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   height: 42.0,
                   child: Text(
                     'Register',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
